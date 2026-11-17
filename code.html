@@ -1,0 +1,576 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "secondary": "#006a6a",
+        "on-surface": "#0b1c30",
+        "on-secondary-container": "#007071",
+        "on-tertiary": "#ffffff",
+        "surface-bright": "#f8f9ff",
+        "primary": "#004cca",
+        "tertiary-fixed-dim": "#ffb3ae",
+        "on-secondary-fixed": "#002020",
+        "surface-container-high": "#dce9ff",
+        "secondary-fixed-dim": "#26dcdd",
+        "outline": "#737687",
+        "inverse-primary": "#b4c5ff",
+        "tertiary-fixed": "#ffdad7",
+        "primary-container": "#0062ff",
+        "on-primary-container": "#f3f3ff",
+        "primary-fixed": "#dbe1ff",
+        "error": "#ba1a1a",
+        "surface-tint": "#0053da",
+        "on-primary-fixed": "#00174b",
+        "on-tertiary-fixed-variant": "#930015",
+        "background": "#f8f9ff",
+        "secondary-container": "#56f9f9",
+        "surface-container-highest": "#d3e4fe",
+        "surface-container-lowest": "#ffffff",
+        "surface-variant": "#d3e4fe",
+        "on-error": "#ffffff",
+        "surface": "#f8f9ff",
+        "inverse-surface": "#213145",
+        "on-tertiary-container": "#fff1ef",
+        "on-primary-fixed-variant": "#003ea8",
+        "on-error-container": "#93000a",
+        "tertiary": "#ad1220",
+        "on-background": "#0b1c30",
+        "secondary-fixed": "#56f9f9",
+        "outline-variant": "#c2c6d9",
+        "on-primary": "#ffffff",
+        "tertiary-container": "#d13035",
+        "surface-container": "#e5eeff",
+        "primary-fixed-dim": "#b4c5ff",
+        "surface-dim": "#cbdbf5",
+        "error-container": "#ffdad6",
+        "inverse-on-surface": "#eaf1ff",
+        "on-secondary": "#ffffff",
+        "on-surface-variant": "#424656",
+        "on-tertiary-fixed": "#410004",
+        "surface-container-low": "#eff4ff",
+        "on-secondary-fixed-variant": "#004f50"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      "spacing": {
+        "space-xl": "2rem",
+        "space-lg": "1.25rem",
+        "space-xs": "0.25rem",
+        "gutter": "1rem",
+        "margin": "1rem",
+        "gutter-lg": "1.5rem",
+        "margin-lg": "2rem",
+        "space-md": "0.75rem",
+        "space-sm": "0.5rem"
+      },
+      "fontFamily": {
+        "label-md": ["JetBrains Mono"],
+        "headline-md": ["Space Grotesk"],
+        "body-lg": ["Plus Jakarta Sans"],
+        "headline-xl-mobile": ["Space Grotesk"],
+        "headline-lg-mobile": ["Space Grotesk"],
+        "label-sm": ["JetBrains Mono"],
+        "headline-xl": ["Space Grotesk"],
+        "headline-lg": ["Space Grotesk"],
+        "body-sm": ["Plus Jakarta Sans"],
+        "body-md": ["Plus Jakarta Sans"],
+        "label-lg": ["JetBrains Mono"]
+      },
+      "fontSize": {
+        "label-md": ["11px", {"lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "500"}],
+        "headline-md": ["20px", {"lineHeight": "26px", "fontWeight": "600"}],
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+        "headline-xl-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+        "headline-lg-mobile": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+        "label-sm": ["9px", {"lineHeight": "12px", "letterSpacing": "0.08em", "fontWeight": "600"}],
+        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+        "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "label-lg": ["13px", {"lineHeight": "18px", "letterSpacing": "0.04em", "fontWeight": "600"}]
+      }
+    }
+  }
+}</script></head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary"><header class="fixed top-0 left-0 right-0 h-16 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-gutter-lg flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container-lowest shadow-[0_2px_4px_rgba(15,23,42,0.04)]"><span class="w-2 h-2 rounded-full bg-secondary-fixed-dim animate-pulse"></span><span class="font-label-sm text-label-sm text-on-surface uppercase">MQTT</span><span class="font-label-sm text-label-sm text-secondary font-bold">ONLINE</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container-lowest shadow-[0_2px_4px_rgba(15,23,42,0.04)]"><span class="material-symbols-outlined text-[14px] text-primary">wifi</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">WIFI HP:</span><span class="font-label-sm text-label-sm text-on-surface font-bold">Lab-Robotics_5G</span><span class="font-label-sm text-label-sm text-primary font-bold ml-1">(18ms)</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container-lowest shadow-[0_2px_4px_rgba(15,23,42,0.04)]"><span class="material-symbols-outlined text-[14px] text-secondary">wifi_tethering</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">WIFI ESP32:</span><span class="font-label-sm text-label-sm text-on-surface font-bold">Lab-Robotics_2.4G</span><span class="font-label-sm text-label-sm text-secondary font-bold ml-1">(4ms)</span></div><div class="hidden lg:flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container-lowest shadow-[0_2px_4px_rgba(15,23,42,0.04)]"><span class="w-2 h-2 rounded-full bg-tertiary animate-ping"></span><span class="font-label-sm text-label-sm text-on-surface-variant">/LOG_0042.CSV</span><span class="font-label-sm text-label-sm text-tertiary font-bold">[REC]</span></div></div><div class="flex items-center gap-space-md"><button class="flex items-center gap-space-xs h-10 px-space-lg rounded-full bg-tertiary-container text-on-tertiary-container shadow-[0_3px_0_#930015] active:shadow-none active:translate-y-[2px] transition-all cursor-pointer font-bold" type="button"><span class="material-symbols-outlined text-[18px]">warning</span><span class="font-label-lg text-label-lg uppercase tracking-wider">E-STOP</span></button><button class="w-9 h-9 rounded-full bg-primary hover:bg-primary-container text-on-primary flex items-center justify-center transition-colors shadow-sm cursor-pointer" title="Operator Profile" type="button"><span class="material-symbols-outlined text-[20px]">person</span></button></div></div></header><div><main class="relative pt-16 pb-12 w-full bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="px-gutter-lg py-space-md flex flex-col gap-space-lg">
+<!-- TOP TACTICAL SUB-BAR (CHASSIS STATUS STRIP) -->
+
+<!-- MAIN DUAL-THUMB COCKPIT GRID (BALANCED 3-COLUMN LAYOUT) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter-lg items-start">
+<!-- ========================================== -->
+<!-- 1. LEFT THUMB ZONE: DRIVE NAVIGATION      -->
+<!-- ========================================== -->
+<div class="xl:col-span-3 flex flex-col gap-space-md"><div class="p-space-lg rounded-2xl bg-surface-container-lowest shadow-[0_4px_16px_rgba(15,23,42,0.05)] flex flex-col gap-space-md items-center">
+  <!-- Header & Segmented Mode Switcher -->
+  <div class="w-full flex items-center justify-between">
+    <div class="flex items-center gap-space-xs">
+      <span class="material-symbols-outlined text-primary text-[22px]">sports_esports</span>
+      <span class="font-label-md text-label-md text-on-surface uppercase font-bold tracking-wider">KONTROL PENGGERAK</span>
+    </div>
+    <!-- Mode Toggle: D-PAD / JOYSTICK -->
+    <div class="p-0.5 rounded-full bg-surface-container flex items-center gap-0.5">
+      <button type="button" id="btn-switch-dpad" onclick="switchDriveMode('DPAD')" class="px-space-sm py-0.5 rounded-full bg-surface-container-lowest text-primary font-label-sm text-[11px] font-bold uppercase shadow-sm transition-all cursor-pointer">D-PAD</button>
+      <button type="button" id="btn-switch-joystick" onclick="switchDriveMode('JOYSTICK')" class="px-space-sm py-0.5 rounded-full text-on-surface-variant hover:text-on-surface font-label-sm text-[11px] font-bold uppercase transition-all cursor-pointer">JOYSTICK 360°</button>
+    </div>
+  </div>
+
+  <!-- 1. D-PAD VIEW -->
+  <div id="dpad-container" class="relative w-64 h-64 my-2 flex items-center justify-center transition-opacity duration-200">
+    <button class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-20 rounded-2xl bg-surface-container-lowest border-2 border-primary/20 hover:border-primary active:scale-95 shadow-[0_3px_0_#CBD5E1,0_4px_8px_rgba(15,23,42,0.06)] flex flex-col items-center justify-center text-primary cursor-pointer transition-all" onclick="sendCommand('FORWARD', 'MAJU'); document.getElementById('active-drive-pill').innerText='MAJU';">
+      <span class="material-symbols-outlined text-[36px]">keyboard_arrow_up</span>
+      <span class="font-label-md text-[11px] font-bold uppercase -mt-1">MAJU</span>
+    </button>
+    <button class="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-20 rounded-2xl bg-surface-container-lowest border-2 border-primary/20 hover:border-primary active:scale-95 shadow-[0_3px_0_#CBD5E1,0_4px_8px_rgba(15,23,42,0.06)] flex flex-col items-center justify-center text-primary cursor-pointer transition-all" onclick="sendCommand('BACKWARD', 'MUNDUR'); document.getElementById('active-drive-pill').innerText='MUNDUR';">
+      <span class="font-label-md text-[11px] font-bold uppercase -mb-1">MUNDUR</span>
+      <span class="material-symbols-outlined text-[36px]">keyboard_arrow_down</span>
+    </button>
+    <button class="absolute left-0 top-1/2 -translate-y-1/2 w-20 h-20 rounded-2xl bg-surface-container-lowest border-2 border-primary/20 hover:border-primary active:scale-95 shadow-[0_3px_0_#CBD5E1,0_4px_8px_rgba(15,23,42,0.06)] flex flex-col items-center justify-center text-primary cursor-pointer transition-all" onclick="sendCommand('LEFT', 'KIRI'); document.getElementById('active-drive-pill').innerText='KIRI';">
+      <span class="material-symbols-outlined text-[36px]">keyboard_arrow_left</span>
+      <span class="font-label-md text-[11px] font-bold uppercase -mt-1">KIRI</span>
+    </button>
+    <button class="absolute right-0 top-1/2 -translate-y-1/2 w-20 h-20 rounded-2xl bg-surface-container-lowest border-2 border-primary/20 hover:border-primary active:scale-95 shadow-[0_3px_0_#CBD5E1,0_4px_8px_rgba(15,23,42,0.06)] flex flex-col items-center justify-center text-primary cursor-pointer transition-all" onclick="sendCommand('RIGHT', 'KANAN'); document.getElementById('active-drive-pill').innerText='KANAN';">
+      <span class="material-symbols-outlined text-[36px]">keyboard_arrow_right</span>
+      <span class="font-label-md text-[11px] font-bold uppercase -mt-1">KANAN</span>
+    </button>
+    <button class="w-16 h-16 rounded-full bg-tertiary text-on-tertiary hover:bg-tertiary-container shadow-[0_3px_0_#930015] active:scale-90 flex flex-col items-center justify-center cursor-pointer transition-all z-10" onclick="sendCommand('STOP', 'IDLE (STOP)'); document.getElementById('active-drive-pill').innerText='STANDBY';">
+      <span class="material-symbols-outlined text-[24px]">stop</span>
+      <span class="font-label-sm text-[9px] font-bold tracking-wider uppercase">STOP</span>
+    </button>
+  </div>
+
+  <!-- 2. JOYSTICK 360° VIEW (OMNIDIRECTIONAL ANALOG STICK) -->
+  <div id="joystick-container" class="hidden relative w-64 h-64 my-2 flex items-center justify-center select-none touch-none">
+    <!-- Outer Radial Boundary Ring with Angle Markings & Crosshairs -->
+    <div class="absolute inset-0 rounded-full border-2 border-primary/25 bg-surface-container-low shadow-[inset_0_2px_8px_rgba(0,0,0,0.06)] flex items-center justify-center overflow-hidden">
+      <!-- Radial Concentric Guide Rings -->
+      <div class="absolute w-44 h-44 rounded-full border border-primary/15"></div>
+      <div class="absolute w-28 h-28 rounded-full border border-dashed border-primary/25"></div>
+      <!-- Crosshair Axes -->
+      <div class="absolute w-full h-[1px] bg-primary/20"></div>
+      <div class="absolute h-full w-[1px] bg-primary/20"></div>
+      <!-- Cardinal Heading Labels -->
+      <span class="absolute top-1 text-[10px] font-mono font-bold text-primary/70 uppercase">0° / MAJU</span>
+      <span class="absolute bottom-1 text-[10px] font-mono font-bold text-primary/70 uppercase">180° / MUNDUR</span>
+      <span class="absolute left-1 text-[10px] font-mono font-bold text-primary/70 uppercase">270°</span>
+      <span class="absolute right-1 text-[10px] font-mono font-bold text-primary/70 uppercase">90°</span>
+      <!-- Vector Trail Indicator -->
+      <div id="joystick-trail" class="absolute w-1 bg-primary/30 rounded-full origin-bottom pointer-events-none hidden" style="bottom: 50%; left: calc(50% - 2px); height: 0px;"></div>
+    </div>
+
+    <!-- Tactile Thumbstick Knob / Analog Pad (Draggable in 360°) -->
+    <div id="joystick-knob" class="absolute w-20 h-20 rounded-full bg-surface-container-lowest border-2 border-primary text-primary shadow-[0_4px_12px_rgba(0,76,202,0.18),0_2px_4px_rgba(15,23,42,0.12)] flex items-center justify-center cursor-grab active:cursor-grabbing z-20 transition-transform duration-75" style="transform: translate(0px, 0px);">
+      <!-- Inner Tactile Grip Concentric Rings -->
+      <div class="w-14 h-14 rounded-full border border-primary/25 bg-surface-container/70 flex items-center justify-center">
+        <div class="w-9 h-9 rounded-full bg-primary/10 border border-primary/40 flex items-center justify-center">
+          <span class="material-symbols-outlined text-[20px] text-primary">radio_button_checked</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Center Re-center Indicator / Button -->
+    <button type="button" onclick="resetJoystick()" title="Kembalikan ke Pusat" class="absolute bottom-2 right-2 px-1.5 py-0.5 rounded-md bg-surface-container-lowest/90 border border-surface-container text-on-surface-variant hover:text-primary font-label-sm text-[9px] font-mono cursor-pointer z-30 shadow-xs">
+      RECENTER
+    </button>
+  </div>
+
+  <!-- Bottom Status & Telemetry Pill -->
+  <div class="w-full p-space-sm rounded-xl bg-surface-container-low flex items-center justify-between">
+    <span class="font-label-sm text-[10px] uppercase text-on-surface-variant font-bold">STATUS ARAH:</span>
+    <span class="px-space-md py-1 rounded-full bg-surface-container-lowest text-primary font-label-md text-[11px] font-bold uppercase shadow-sm" id="active-drive-pill">STANDBY</span>
+  </div>
+</div></div>
+<!-- ==================================================== -->
+<!-- 2. CENTER COMMAND & TELEMETRY HUB (HUD CARDS)        -->
+<!-- ==================================================== -->
+<div class="xl:col-span-6 flex flex-col gap-space-lg">
+<!-- TOP HUD ROW: SENSOR READOUTS & PWM SLIDER -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Card A: Temperature Telemetry Card -->
+<div class="p-space-lg rounded-2xl bg-surface-container-lowest shadow-[0_4px_16px_rgba(15,23,42,0.05)] flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">device_thermostat</span>
+<span class="font-label-md text-label-md text-on-surface uppercase font-bold">DS18B20 PROBE</span>
+</div>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm font-bold" id="temp-badge">Normal (DS18B20)</span>
+</div>
+<!-- Big Temperature Hero Display -->
+<div class="my-space-md flex items-baseline justify-between">
+<div>
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold tracking-tight" id="temp-display">36.4</span>
+<span class="font-headline-md text-headline-md text-primary font-bold">°C</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">THRESHOLD</span>
+<span class="font-label-md text-label-md text-tertiary font-bold">Limit 40.0°C</span>
+</div>
+</div>
+<!-- Inline SVG Sparkline -->
+<div class="h-10 w-full mb-space-sm">
+<svg class="w-full h-full text-primary" fill="none" preserveAspectRatio="none" viewBox="0 0 200 40">
+<path d="M 0 32 Q 25 30 50 28 T 100 24 T 150 25 T 200 18" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M 0 32 Q 25 30 50 28 T 100 24 T 150 25 T 200 18 L 200 40 L 0 40 Z" fill="currentColor" fill-opacity="0.08"></path>
+</svg>
+</div>
+<!-- Interactive Heat Simulation Button -->
+<div class="flex items-center gap-space-sm pt-space-xs">
+<button class="w-full py-space-sm px-space-md rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors flex items-center justify-center gap-space-xs cursor-pointer font-label-md text-label-md font-bold" id="btn-heat-sim" onclick="toggleSimulateHeat()">
+<span class="material-symbols-outlined text-[18px] text-tertiary">local_fire_department</span>
+<span>Simulasi Panas</span>
+</button>
+</div>
+</div>
+<!-- Card B: Kecepatan Motor (PWM) Thumb-Slider Card -->
+<div class="p-space-lg rounded-2xl bg-surface-container-lowest shadow-[0_4px_16px_rgba(15,23,42,0.05)] flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">speed</span>
+<span class="font-label-md text-label-md text-on-surface uppercase font-bold">KECEPATAN MOTOR (PWM)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md text-primary font-bold" id="pwm-val">180</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">/ 255 PWM</span>
+</div>
+</div>
+<!-- Handheld Gaming Style Thumb Slider -->
+<div class="my-space-md flex flex-col gap-space-xs">
+<div class="relative flex items-center h-8">
+<input class="w-full h-3 bg-surface-container-high rounded-full appearance-none cursor-pointer accent-primary focus:outline-none" id="pwm-slider" max="255" min="0" oninput="updatePWM(this.value)" type="range" value="180">
+</div>
+<div class="flex justify-between px-1 text-on-surface-variant font-label-sm text-label-sm">
+<span>0 (0%)</span>
+<span>64 (25%)</span>
+<span>128 (50%)</span>
+<span>192 (75%)</span>
+<span>255 (MAX)</span>
+</div>
+</div>
+<!-- Quick-select Preset Pills -->
+<div class="grid grid-cols-4 gap-space-xs">
+<button class="py-space-xs rounded-lg bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary transition-colors font-label-md text-label-md font-bold text-center cursor-pointer" onclick="setPWMPreset(64)">25%</button>
+<button class="py-space-xs rounded-lg bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary transition-colors font-label-md text-label-md font-bold text-center cursor-pointer" onclick="setPWMPreset(128)">50%</button>
+<button class="py-space-xs rounded-lg bg-surface-container-high text-primary font-label-md text-label-md font-bold text-center cursor-pointer" onclick="setPWMPreset(192)">75%</button>
+<button class="py-space-xs rounded-lg bg-surface-container text-on-surface hover:bg-primary hover:text-on-primary transition-colors font-label-md text-label-md font-bold text-center cursor-pointer" onclick="setPWMPreset(255)">MAX</button>
+</div>
+</div>
+</div>
+<!-- BOTTOM HUD: LIVE MQTT & MICROSD DUAL-LOG TERMINAL -->
+<div class="p-space-lg rounded-2xl bg-surface-container-lowest shadow-[0_4px_16px_rgba(15,23,42,0.05)] flex flex-col gap-space-sm">
+<!-- Terminal Header Bar -->
+<div class="flex items-center justify-between border-b pb-space-sm border-surface-container">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-fixed-dim animate-pulse"></span>
+<span class="font-label-md text-label-md text-on-surface uppercase font-bold">TERMINAL LOG MQTT &amp; MICROSD</span>
+</div>
+<div class="flex items-center gap-space-md">
+<!-- Active SD Log Pill -->
+<div class="flex items-center gap-space-xs px-space-sm py-0.5 rounded-full bg-surface-container text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-tertiary animate-pulse">radio_button_checked</span>
+<span class="font-label-sm text-label-sm uppercase font-bold text-tertiary">/LOG_0042.CSV</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">[REC]</span>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm uppercase transition-colors cursor-pointer" onclick="clearTerminal()">CLEAR</button>
+</div>
+</div>
+<!-- Embedded Dark-Indigo Technical Screen -->
+<div class="p-space-md rounded-xl bg-inverse-surface text-inverse-on-surface font-label-sm text-label-sm flex flex-col gap-space-xs overflow-hidden shadow-[inset_0_2px_8px_rgba(0,0,0,0.4)]">
+<div class="flex items-center justify-between pb-1 border-b border-inverse-surface/40 text-inverse-on-surface/60">
+<span>BROKER: broker.emqx.io:8883 (TLS_OK)</span>
+<span>BUFFER: 48 KB / WRITTEN OK</span>
+</div>
+<div class="h-44 overflow-y-auto flex flex-col gap-1 pr-1 font-mono text-label-md" id="terminal-stream">
+<div class="text-secondary-fixed-dim">[10:24:12.102] TX &gt; robot/drive/cmd: {vx:0, vy:0, omega:0}</div>
+<div class="text-inverse-primary">[10:24:12.115] RX &lt; robot/telemetry: temp=36.4C, pwm=180, sd_sync=ok</div>
+<div class="text-tertiary-fixed-dim font-bold">[10:24:12.230] LOG &gt; written to /LOG_0042.CSV (block #142) [REC]</div>
+<div class="text-inverse-on-surface">[10:24:15.002] RECV {"status":"READY", "qos":1}</div>
+<div class="text-primary-fixed-dim">[10:24:16.890] PUB {"cmd":"FORWARD", "pwm":180} -&gt; ACK_OK</div>
+</div>
+<!-- Terminal Input Command Bar -->
+<div class="pt-2 border-t border-inverse-surface/40 flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-inverse-primary font-bold">
+<span>&gt; esp32_host:</span>
+<span class="animate-pulse">_</span>
+</div>
+<span class="text-inverse-on-surface/50 text-[10px]">AUTO-FLUSH INTERVAL: 100ms</span>
+</div>
+</div>
+<!-- Live Telemetry Mini-Strip -->
+<div class="grid grid-cols-3 gap-space-sm pt-space-xs text-center">
+<div class="p-space-xs rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">PACKET LOSS:</span>
+<span class="font-label-md text-label-md text-on-surface font-bold">0.00%</span>
+</div>
+<div class="p-space-xs rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">ROUND TRIP:</span>
+<span class="font-label-md text-label-md text-primary font-bold">14.2 ms</span>
+</div>
+<div class="p-space-xs rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">HEAP FREE:</span>
+<span class="font-label-md text-label-md text-secondary font-bold">198 KB</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ==================================================== -->
+<!-- 3. RIGHT THUMB ZONE: ACTUATOR / GRIPPER CLUSTER       -->
+<!-- ==================================================== -->
+<div class="xl:col-span-3 flex flex-col gap-space-md"><div class="p-space-lg rounded-2xl bg-surface-container-lowest shadow-[0_4px_16px_rgba(15,23,42,0.05)] flex flex-col gap-space-lg"><div class="flex items-center justify-between border-b border-surface-container pb-space-sm"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-[22px]">precision_manufacturing</span><span class="font-label-md text-label-md text-on-surface uppercase font-bold tracking-wider">KONTROL LENGAN &amp; CAPIT</span></div><span class="px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[10px] font-bold uppercase">AKTIF</span></div><div class="flex flex-col gap-space-sm"><div class="flex items-center justify-between text-on-surface"><span class="font-label-md text-[12px] font-bold uppercase text-on-surface flex items-center gap-1"><span class="material-symbols-outlined text-[18px] text-primary">vertical_align_center</span> LENGAN ROBOT</span><span class="font-label-sm text-[11px] text-secondary font-bold font-mono" id="gripper-angle-text">24.5°</span></div><div class="grid grid-cols-2 gap-space-sm"><button class="h-24 rounded-2xl bg-surface-container-lowest border-2 border-primary/20 hover:border-primary active:scale-95 shadow-[0_3px_0_#CBD5E1,0_4px_8px_rgba(15,23,42,0.06)] flex flex-col items-center justify-center gap-1 text-primary cursor-pointer transition-all" onclick="sendGripperCommand('CAPIT_NAIK', 'NAIK')"><span class="material-symbols-outlined text-[32px]">arrow_upward</span><span class="font-label-md text-[13px] font-bold uppercase">NAIK</span></button><button class="h-24 rounded-2xl bg-surface-container-lowest border-2 border-primary/20 hover:border-primary active:scale-95 shadow-[0_3px_0_#CBD5E1,0_4px_8px_rgba(15,23,42,0.06)] flex flex-col items-center justify-center gap-1 text-primary cursor-pointer transition-all" onclick="sendGripperCommand('CAPIT_TURUN', 'TURUN')"><span class="material-symbols-outlined text-[32px]">arrow_downward</span><span class="font-label-md text-[13px] font-bold uppercase">TURUN</span></button></div></div><div class="flex flex-col gap-space-sm"><div class="flex items-center justify-between text-on-surface"><span class="font-label-md text-[12px] font-bold uppercase text-on-surface flex items-center gap-1"><span class="material-symbols-outlined text-[18px] text-secondary">front_hand</span> CAPIT ROBOT</span><span class="font-label-sm text-[11px] text-secondary font-bold uppercase" id="label-gripper-status">SIAP</span></div><div class="grid grid-cols-2 gap-space-sm"><button class="h-24 rounded-2xl bg-surface-container-lowest border-2 border-secondary/20 hover:border-secondary active:scale-95 shadow-[0_3px_0_#CBD5E1,0_4px_8px_rgba(15,23,42,0.06)] flex flex-col items-center justify-center gap-1 text-secondary cursor-pointer transition-all" onclick="sendGripperCommand('CAPIT_BUKA', 'BUKA')"><span class="material-symbols-outlined text-[32px]">open_in_full</span><span class="font-label-md text-[13px] font-bold uppercase">BUKA</span></button><button class="h-24 rounded-2xl bg-surface-container-lowest border-2 border-tertiary/20 hover:border-tertiary active:scale-95 shadow-[0_3px_0_#CBD5E1,0_4px_8px_rgba(15,23,42,0.06)] flex flex-col items-center justify-center gap-1 text-tertiary cursor-pointer transition-all" onclick="sendGripperCommand('CAPIT_TUTUP', 'JEPIT')"><span class="material-symbols-outlined text-[32px]">close_fullscreen</span><span class="font-label-md text-[13px] font-bold uppercase">JEPIT</span></button></div></div></div></div>
+</div>
+<!-- QUICK PRE-FLIGHT HOTKEYS GUIDE (FOOTER DOCK) -->
+
+</div>
+</div>
+<script>
+  let currentPWM = 180;
+  let simulatedTemp = 36.4;
+  let isHeating = false;
+  let heatInterval = null;
+  let driveMode = 'CROSS';
+  let gripperPos = 24.5;
+  let isLocked = false;
+  let speedPreset = 'NORMAL';
+
+  function getTimeStr() {
+    const d = new Date();
+    return d.toTimeString().split(' ')[0] + '.' + String(d.getMilliseconds()).padStart(3, '0');
+  }
+
+  function appendLog(line, colorClass = 'text-inverse-on-surface') {
+    const stream = document.getElementById('terminal-stream');
+    if (!stream) return;
+    const div = document.createElement('div');
+    div.className = colorClass;
+    div.textContent = line;
+    stream.appendChild(div);
+    stream.scrollTop = stream.scrollHeight;
+  }
+
+  function sendCommand(cmd, label) {
+    const steeringLabel = document.getElementById('tele-steering');
+    const rpmLeft = document.getElementById('rpm-left');
+    const rpmRight = document.getElementById('rpm-right');
+    const barLeft = document.getElementById('bar-rpm-left');
+    const barRight = document.getElementById('bar-rpm-right');
+
+    let steering = "0° CENTER";
+    let lRpm = 0;
+    let rRpm = 0;
+
+    let multiplier = speedPreset === 'SLOW' ? 0.6 : (speedPreset === 'TURBO' ? 1.4 : 1.0);
+
+    if (cmd === 'FORWARD') {
+      steering = "0° CENTER";
+      lRpm = Math.round(currentPWM * 1.2 * multiplier);
+      rRpm = Math.round(currentPWM * 1.2 * multiplier);
+    } else if (cmd === 'BACKWARD') {
+      steering = "180° REVERSE";
+      lRpm = -Math.round(currentPWM * 1.2 * multiplier);
+      rRpm = -Math.round(currentPWM * 1.2 * multiplier);
+    } else if (cmd === 'LEFT') {
+      steering = "-45° LEFT";
+      lRpm = -Math.round(currentPWM * 0.8 * multiplier);
+      rRpm = Math.round(currentPWM * 0.8 * multiplier);
+    } else if (cmd === 'RIGHT') {
+      steering = "+45° RIGHT";
+      lRpm = Math.round(currentPWM * 0.8 * multiplier);
+      rRpm = -Math.round(currentPWM * 0.8 * multiplier);
+    } else {
+      steering = "0° CENTER";
+      lRpm = 0;
+      rRpm = 0;
+    }
+
+    if (steeringLabel) steeringLabel.textContent = steering;
+    if (rpmLeft) rpmLeft.textContent = lRpm + " RPM";
+    if (rpmRight) rpmRight.textContent = rRpm + " RPM";
+    if (barLeft) barLeft.style.width = Math.min(100, Math.abs(lRpm) / 3) + "%";
+    if (barRight) barRight.style.width = Math.min(100, Math.abs(rRpm) / 3) + "%";
+
+    appendLog(`[${getTimeStr()}] TX > robot/drive/cmd: {"cmd":"${cmd}","pwm":${currentPWM}}`, 'text-primary-fixed-dim');
+    appendLog(`[${getTimeStr()}] LOG > written to /LOG_0042.CSV (CMD_${cmd}) [REC]`, 'text-tertiary-fixed-dim font-bold');
+  }
+
+  function sendGripperCommand(action, status) {
+    const label = document.getElementById('label-gripper-status');
+    const angleText = document.getElementById('gripper-angle-text');
+    const strain = document.getElementById('clamp-strain');
+    const barStrain = document.getElementById('bar-strain');
+
+    if (label) label.textContent = status;
+
+    if (action === 'CAPIT_NAIK') {
+      gripperPos = Math.min(90, +(gripperPos + 15).toFixed(1));
+    } else if (action === 'CAPIT_TURUN') {
+      gripperPos = Math.max(-30, +(gripperPos - 15).toFixed(1));
+    } else if (action === 'CAPIT_BUKA') {
+      if (strain) strain.textContent = "0.4 N (IDLE)";
+      if (barStrain) barStrain.style.width = "10%";
+    } else if (action === 'CAPIT_TUTUP') {
+      if (strain) strain.textContent = "12.8 N (LOCKED)";
+      if (barStrain) barStrain.style.width = "85%";
+    }
+
+    if (angleText) angleText.textContent = `${gripperPos}°`;
+
+    appendLog(`[${getTimeStr()}] PUB {"gripper":"${action}","pitch":${gripperPos}} -> ACK_OK`, 'text-secondary-fixed-dim');
+    appendLog(`[${getTimeStr()}] LOG > written to /LOG_0042.CSV (${action}) [REC]`, 'text-tertiary-fixed-dim');
+  }
+
+  function toggleGripperLock() {
+    isLocked = !isLocked;
+    const btnLock = document.getElementById('btn-gripper-lock');
+    const icon = document.getElementById('gripper-icon');
+    const label = document.getElementById('label-lock-btn');
+    const strain = document.getElementById('clamp-strain');
+    const barStrain = document.getElementById('bar-strain');
+
+    if (isLocked) {
+      if (icon) icon.textContent = 'lock';
+      if (label) label.textContent = 'LOCKED';
+      if (strain) strain.textContent = "14.5 N (LOCKED)";
+      if (barStrain) barStrain.style.width = "95%";
+      appendLog(`[${getTimeStr()}] ACTUATOR: Gripper solenoid LOCKED (holding force active)`, 'text-primary-fixed-dim');
+    } else {
+      if (icon) icon.textContent = 'lock_open';
+      if (label) label.textContent = 'UNCLAMP';
+      if (strain) strain.textContent = "1.2 N (NORMAL)";
+      if (barStrain) barStrain.style.width = "25%";
+      appendLog(`[${getTimeStr()}] ACTUATOR: Gripper UNCLAMPED (free floating)`, 'text-secondary-fixed-dim');
+    }
+  }
+
+  function setGripperPreset(type) {
+    const angleText = document.getElementById('gripper-angle-text');
+    const label = document.getElementById('label-gripper-status');
+    if (type === 'HOME') {
+      gripperPos = 0.0;
+      if (angleText) angleText.textContent = "0.0°";
+      if (label) label.textContent = "HOME / PARK";
+      appendLog(`[${getTimeStr()}] ARM: Recalled HOME preset (0.0°)`, 'text-inverse-primary');
+    } else {
+      gripperPos = 35.0;
+      if (angleText) angleText.textContent = "35.0°";
+      if (label) label.textContent = "PICK READY";
+      appendLog(`[${getTimeStr()}] ARM: Recalled PICK READY preset (35.0°)`, 'text-inverse-primary');
+    }
+  }
+
+  function setDriveProfile(profile) {
+    speedPreset = profile;
+    const btnSlow = document.getElementById('btn-profile-slow');
+    const btnNormal = document.getElementById('btn-profile-normal');
+    const btnTurbo = document.getElementById('btn-profile-turbo');
+    const teleSpeed = document.getElementById('tele-speed');
+
+    [btnSlow, btnNormal, btnTurbo].forEach(b => {
+      b.className = "py-1 px-1 rounded-lg bg-surface-container text-on-surface font-label-sm text-[10px] font-bold text-center hover:bg-surface-container-high transition-colors cursor-pointer";
+    });
+
+    if (profile === 'SLOW') {
+      btnSlow.className = "py-1 px-1 rounded-lg bg-secondary text-on-secondary font-label-sm text-[10px] font-bold text-center shadow-sm transition-colors cursor-pointer";
+      if (teleSpeed) teleSpeed.textContent = "35%";
+    } else if (profile === 'NORMAL') {
+      btnNormal.className = "py-1 px-1 rounded-lg bg-primary text-on-primary font-label-sm text-[10px] font-bold text-center shadow-sm transition-colors cursor-pointer";
+      if (teleSpeed) teleSpeed.textContent = "70%";
+    } else if (profile === 'TURBO') {
+      btnTurbo.className = "py-1 px-1 rounded-lg bg-tertiary text-on-tertiary font-label-sm text-[10px] font-bold text-center shadow-sm transition-colors cursor-pointer";
+      if (teleSpeed) teleSpeed.textContent = "100%";
+    }
+    appendLog(`[${getTimeStr()}] DRIVE_PROFILE set to ${profile}`, 'text-secondary-fixed-dim');
+  }
+
+  function setDriveInputMode(mode) {
+    driveMode = mode;
+    const btnCross = document.getElementById('btn-mode-cross');
+    const btnStick = document.getElementById('btn-mode-stick');
+    if (mode === 'CROSS') {
+      btnCross.className = "px-space-sm py-0.5 rounded-full bg-surface-container-lowest text-primary font-label-sm text-label-sm font-bold shadow-sm transition-all cursor-pointer";
+      btnStick.className = "px-space-sm py-0.5 rounded-full text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-all cursor-pointer";
+    } else {
+      btnStick.className = "px-space-sm py-0.5 rounded-full bg-surface-container-lowest text-primary font-label-sm text-label-sm font-bold shadow-sm transition-all cursor-pointer";
+      btnCross.className = "px-space-sm py-0.5 rounded-full text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-all cursor-pointer";
+    }
+    appendLog(`[${getTimeStr()}] CFG: DRIVE_INPUT_MODE toggled to ${mode}`, 'text-inverse-primary');
+  }
+
+  function updatePWM(val) {
+    currentPWM = parseInt(val, 10);
+    const pwmVal = document.getElementById('pwm-val');
+    if (pwmVal) pwmVal.textContent = currentPWM;
+    appendLog(`[${getTimeStr()}] PUB {"pwm":${currentPWM}} -> ACK_OK`, 'text-primary-fixed-dim');
+  }
+
+  function setPWMPreset(val) {
+    const slider = document.getElementById('pwm-slider');
+    if (slider) slider.value = val;
+    updatePWM(val);
+  }
+
+  function toggleSimulateHeat() {
+    isHeating = !isHeating;
+    const btn = document.getElementById('btn-heat-sim');
+    const badge = document.getElementById('temp-badge');
+    const display = document.getElementById('temp-display');
+
+    if (isHeating) {
+      if (btn) btn.classList.add('bg-tertiary-container', 'text-on-tertiary-container');
+      heatInterval = setInterval(() => {
+        simulatedTemp = +(simulatedTemp + 0.8).toFixed(1);
+        if (display) display.textContent = simulatedTemp.toFixed(1);
+
+        if (simulatedTemp >= 40.0) {
+          if (badge) {
+            badge.textContent = "OVERHEAT ALERT!";
+            badge.className = "px-space-sm py-0.5 rounded-full bg-tertiary text-on-tertiary font-label-sm text-label-sm font-bold animate-pulse";
+          }
+          appendLog(`[${getTimeStr()}] WARN: Core Temp ${simulatedTemp}°C exceeds threshold 40.0°C!`, 'text-tertiary-fixed font-bold');
+        } else {
+          if (badge) {
+            badge.textContent = "WARMING...";
+            badge.className = "px-space-sm py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold";
+          }
+        }
+      }, 500);
+    } else {
+      clearInterval(heatInterval);
+      simulatedTemp = 36.4;
+      if (btn) btn.classList.remove('bg-tertiary-container', 'text-on-tertiary-container');
+      if (display) display.textContent = simulatedTemp.toFixed(1);
+      if (badge) {
+        badge.textContent = "Normal (DS18B20)";
+        badge.className = "px-space-sm py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm font-bold";
+      }
+      appendLog(`[${getTimeStr()}] INFO: Thermal probe stabilized to 36.4°C`, 'text-secondary-fixed-dim');
+    }
+  }
+
+  function clearTerminal() {
+    const stream = document.getElementById('terminal-stream');
+    if (stream) {
+      stream.innerHTML = `<div class="text-secondary-fixed-dim">[${getTimeStr()}] TERMINAL LOG CLEARED. SD RECORDING PERSISTS.</div>`;
+    }
+  }
+
+  // Keyboard shortcut listener for dual-thumb console emulation
+  document.addEventListener('keydown', (e) => {
+    const key = e.key.toUpperCase();
+    if (key === 'W' || key === 'ARROWUP') sendCommand('FORWARD', 'MAJU');
+    else if (key === 'S' || key === 'ARROWDOWN') sendCommand('BACKWARD', 'MUNDUR');
+    else if (key === 'A' || key === 'ARROWLEFT') sendCommand('LEFT', 'KIRI');
+    else if (key === 'D' || key === 'ARROWRIGHT') sendCommand('RIGHT', 'KANAN');
+    else if (key === ' ') sendCommand('STOP', 'IDLE (STOP)');
+    else if (key === 'I') sendGripperCommand('CAPIT_NAIK', 'NAIK (ARM +15°)');
+    else if (key === 'K') sendGripperCommand('CAPIT_TURUN', 'TURUN (ARM -15°)');
+    else if (key === 'J') sendGripperCommand('CAPIT_BUKA', 'BUKA (OPEN CLAW)');
+    else if (key === 'L') sendGripperCommand('CAPIT_TUTUP', 'TUTUP (CLAMP OBJECT)');
+  });
+</script></main></div><footer class="fixed bottom-0 left-0 right-0 h-10 z-50 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_-1px_6px_rgba(0,0,0,0.03)] flex items-center justify-between px-gutter-lg"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">REMOTE MODE:</span><span class="font-label-sm text-label-sm text-primary font-bold">DUAL THUMBSTICK (MODE 2)</span></div><div class="hidden md:flex items-center gap-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">RATE:</span><span class="font-label-sm text-label-sm text-on-surface">100 Hz UART</span></div></div><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">CORE TEMP:</span><span class="font-label-sm text-label-sm text-on-surface">41.8°C</span></div><div class="flex items-center gap-space-xs"><span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed-dim"></span><span class="font-label-sm text-label-sm text-secondary font-bold uppercase">BUS SYNC OK</span></div></div></footer>
+
+
+</body></html>

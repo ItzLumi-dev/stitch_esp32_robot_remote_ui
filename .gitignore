@@ -1,0 +1,10 @@
+# Flutter .gitignore
+.dart_tool/
+.packages
+build/
+.gradle/
+android/.gradle/
+android/local.properties
+ios/.symlinks/
+*.lock
+upload_to_github.py

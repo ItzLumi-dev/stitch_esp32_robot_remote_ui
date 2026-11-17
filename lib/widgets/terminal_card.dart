@@ -5,215 +5,249 @@ import '../constants/app_styles.dart';
 import '../constants/mqtt_config.dart';
 import '../services/mqtt_service.dart';
 
-class TerminalCard extends StatelessWidget {
+class TerminalCard extends StatefulWidget {
   const TerminalCard({super.key});
+
+  @override
+  State<TerminalCard> createState() => _TerminalCardState();
+}
+
+class _TerminalCardState extends State<TerminalCard> {
+  final ScrollController _scrollController = ScrollController();
+  int _lastLogCount = 0;
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final mqttService = context.watch<MqttService>();
     final logs = mqttService.terminalLogs;
 
+    if (logs.length != _lastLogCount || logs.length == 18) {
+      _lastLogCount = logs.length;
+      _scrollToBottom();
+    }
+
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: AppColors.surfaceContainerLowest,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(18),
         boxShadow: AppStyles.cardShadow,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Header Bar
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Container(
-                    width: 7,
-                    height: 7,
-                    decoration: const BoxDecoration(
-                      color: AppColors.secondaryFixedDim,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Text(
+              Container(
+                width: 8,
+                height: 8,
+                decoration: const BoxDecoration(
+                  color: AppColors.secondaryFixedDim,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const SizedBox(width: 7),
+              Expanded(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
                     'TERMINAL LOG MQTT & MICROSD',
                     style: AppStyles.labelMd(
                       color: AppColors.onSurface,
                       weight: FontWeight.w700,
                     ),
                   ),
-                ],
+                ),
               ),
-              Row(
-                children: [
-                  // Active SD Log Pill
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: AppColors.surfaceContainer,
-                      borderRadius: BorderRadius.circular(9999),
+              const SizedBox(width: 8),
+              // Active SD Log Pill
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceContainer,
+                  borderRadius: BorderRadius.circular(9999),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 6,
+                      height: 6,
+                      decoration: const BoxDecoration(
+                        color: AppColors.tertiary,
+                        shape: BoxShape.circle,
+                      ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 5,
-                          height: 5,
-                          decoration: const BoxDecoration(
-                            color: AppColors.tertiary,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          '/LOG_0042.CSV',
-                          style: AppStyles.labelSm(
-                            color: AppColors.tertiary,
-                            weight: FontWeight.w700,
-                          ),
-                        ),
-                        const SizedBox(width: 3),
-                        Text(
-                          '[REC]',
-                          style: AppStyles.labelSm(
-                            color: AppColors.secondary,
-                            weight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  // Clear button
-                  GestureDetector(
-                    onTap: () => mqttService.clearTerminal(),
-                    child: Text(
-                      'CLEAR',
+                    const SizedBox(width: 5),
+                    Text(
+                      '/LOG_0042.CSV',
                       style: AppStyles.labelSm(
-                        color: AppColors.onSurfaceVariant,
+                        color: AppColors.tertiary,
                         weight: FontWeight.w700,
                       ),
                     ),
+                    const SizedBox(width: 4),
+                    Text(
+                      '[REC]',
+                      style: AppStyles.labelSm(
+                        color: AppColors.secondary,
+                        weight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              // Clear button
+              GestureDetector(
+                onTap: () => mqttService.clearTerminal(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                  child: Text(
+                    'CLEAR',
+                    style: AppStyles.labelSm(
+                      color: AppColors.onSurfaceVariant,
+                      weight: FontWeight.w700,
+                    ),
                   ),
-                ],
+                ),
               ),
             ],
           ),
 
           const SizedBox(height: 8),
 
-          // Embedded Dark Technical Terminal Screen
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: AppColors.inverseSurface,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x66000000),
-                  blurRadius: 6,
-                  offset: Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Broker & Buffer Status sub-bar
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'BROKER: ${MqttConfig.broker}:${MqttConfig.port} (WSS)',
-                      style: AppStyles.labelSm(
-                        color: AppColors.inverseOnSurface.withOpacity(0.6),
-                      ),
-                    ),
-                    Text(
-                      'BUFFER: ${logs.length}/18 LINES',
-                      style: AppStyles.labelSm(
-                        color: AppColors.inverseOnSurface.withOpacity(0.6),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Divider(
-                  height: 1,
-                  thickness: 1,
-                  color: AppColors.inverseOnSurface.withOpacity(0.12),
-                ),
-                const SizedBox(height: 4),
-
-                // Terminal lines (Max 18 lines)
-                ConstrainedBox(
-                  constraints: const BoxConstraints(minHeight: 80, maxHeight: 95),
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: logs.length,
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final item = logs[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 1.0),
+          // Embedded Dark Technical Terminal Screen (Expanded to fill available height!)
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppColors.inverseSurface,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x55000000),
+                    blurRadius: 6,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Broker & Buffer Status sub-bar
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
                         child: Text(
-                          '${item.timestamp} ${item.message}',
+                          'BROKER: ${MqttConfig.broker}:${MqttConfig.port} (WSS)',
                           style: AppStyles.labelSm(
-                            color: item.color,
-                            weight: FontWeight.w500,
+                            color: AppColors.inverseOnSurface.withOpacity(0.65),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                      );
-                    },
-                  ),
-                ),
-
-                const SizedBox(height: 4),
-                Divider(
-                  height: 1,
-                  thickness: 1,
-                  color: AppColors.inverseOnSurface.withOpacity(0.12),
-                ),
-                const SizedBox(height: 4),
-
-                // Prompt line
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          '> esp32_host: ',
-                          style: AppStyles.labelSm(
-                            color: AppColors.primaryFixedDim,
-                            weight: FontWeight.w700,
-                          ),
-                        ),
-                        Text(
-                          '_',
-                          style: AppStyles.labelSm(
-                            color: AppColors.primaryFixedDim,
-                            weight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      'AUTO-FLUSH INTERVAL: 100ms',
-                      style: AppStyles.labelSm(
-                        color: AppColors.inverseOnSurface.withOpacity(0.4),
                       ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'BUFFER: ${logs.length}/18 LINES',
+                        style: AppStyles.labelSm(
+                          color: AppColors.inverseOnSurface.withOpacity(0.65),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: AppColors.inverseOnSurface.withOpacity(0.14),
+                  ),
+                  const SizedBox(height: 5),
+
+                  // Terminal lines (Max 18 lines FIFO)
+                  Expanded(
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      padding: EdgeInsets.zero,
+                      itemCount: logs.length,
+                      physics: const ClampingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final item = logs[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 1.5),
+                          child: Text(
+                            '${item.timestamp} ${item.message}',
+                            style: AppStyles.labelSm(
+                              color: item.color,
+                              weight: FontWeight.w500,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        );
+                      },
                     ),
-                  ],
-                ),
-              ],
+                  ),
+
+                  const SizedBox(height: 5),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: AppColors.inverseOnSurface.withOpacity(0.14),
+                  ),
+                  const SizedBox(height: 5),
+
+                  // Prompt line
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            '> esp32_host: ',
+                            style: AppStyles.labelSm(
+                              color: AppColors.primaryFixedDim,
+                              weight: FontWeight.w700,
+                            ),
+                          ),
+                          Text(
+                            '_',
+                            style: AppStyles.labelSm(
+                              color: AppColors.primaryFixedDim,
+                              weight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        'AUTO-FLUSH INTERVAL: 100ms',
+                        style: AppStyles.labelSm(
+                          color: AppColors.inverseOnSurface.withOpacity(0.45),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
 
@@ -227,13 +261,13 @@ class TerminalCard extends StatelessWidget {
                 value: mqttService.diagnosticStatus,
                 valueColor: AppColors.secondary,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 10),
               _buildMiniTelemetryItem(
-                label: 'ROUND TRIP / PING:',
+                label: 'PING (MS):',
                 value: '${mqttService.pingMs} ms',
                 valueColor: AppColors.primary,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 10),
               _buildMiniTelemetryItem(
                 label: 'SUHU PROBE:',
                 value: '${mqttService.temperature.toStringAsFixed(1)}°C',
@@ -255,12 +289,13 @@ class TerminalCard extends StatelessWidget {
   }) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
         decoration: BoxDecoration(
           color: AppColors.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               label,
@@ -270,14 +305,16 @@ class TerminalCard extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-            Text(
-              value,
-              style: AppStyles.labelSm(
-                color: valueColor,
-                weight: FontWeight.w700,
+            const SizedBox(height: 2),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                value,
+                style: AppStyles.labelMd(
+                  color: valueColor,
+                  weight: FontWeight.w700,
+                ),
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),

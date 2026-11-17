@@ -36,55 +36,61 @@ class TemperatureCard extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: AppColors.surfaceContainerLowest,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(18),
         boxShadow: AppStyles.cardShadow,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Header Row
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  const Icon(
-                    Icons.device_thermostat_rounded,
-                    color: AppColors.primary,
-                    size: 16,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
+              const Icon(
+                Icons.device_thermostat_rounded,
+                color: AppColors.primary,
+                size: 18,
+              ),
+              const SizedBox(width: 4),
+              Expanded(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
                     'DS18B20 PROBE',
                     style: AppStyles.labelMd(
                       color: AppColors.onSurface,
                       weight: FontWeight.w700,
                     ),
                   ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: badgeBg,
-                  borderRadius: BorderRadius.circular(9999),
                 ),
-                child: Text(
-                  mqttService.tempStatusLabel,
-                  style: AppStyles.labelSm(
-                    color: badgeText,
-                    weight: FontWeight.w700,
+              ),
+              const SizedBox(width: 6),
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: badgeBg,
+                    borderRadius: BorderRadius.circular(9999),
+                  ),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      mqttService.tempStatusLabel,
+                      style: AppStyles.labelSm(
+                        color: badgeText,
+                        weight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
 
           // Big Temperature Readout & Threshold
           Row(
@@ -98,7 +104,7 @@ class TemperatureCard extends StatelessWidget {
                 children: [
                   Text(
                     temp.toStringAsFixed(1),
-                    style: AppStyles.headlineLg(
+                    style: AppStyles.headlineXl(
                       color: status == TempStatus.bahaya
                           ? AppColors.tertiary
                           : AppColors.onSurface,
@@ -124,7 +130,7 @@ class TemperatureCard extends StatelessWidget {
                   ),
                   Text(
                     'Limit 40.0°C',
-                    style: AppStyles.labelSm(
+                    style: AppStyles.labelMd(
                       color: AppColors.tertiary,
                       weight: FontWeight.w700,
                     ),
@@ -136,19 +142,21 @@ class TemperatureCard extends StatelessWidget {
 
           const SizedBox(height: 6),
 
-          // Dynamic Sparkline Graph
-          SizedBox(
-            height: 32,
-            width: double.infinity,
-            child: CustomPaint(
-              painter: SparklinePainter(
-                data: mqttService.tempHistory,
-                lineColor: sparklineColor,
+          // Dynamic Sparkline Graph (flexes cleanly into available height)
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: CustomPaint(
+                size: Size.infinite,
+                painter: SparklinePainter(
+                  data: mqttService.tempHistory,
+                  lineColor: sparklineColor,
+                ),
               ),
             ),
           ),
 
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
 
           // Interactive Heat Simulation Button
           GestureDetector(
@@ -156,29 +164,29 @@ class TemperatureCard extends StatelessWidget {
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 150),
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 5),
+              padding: const EdgeInsets.symmetric(vertical: 7),
               decoration: BoxDecoration(
                 color: mqttService.isHeatSimActive
                     ? AppColors.tertiaryContainer
                     : AppColors.surfaceContainer,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.local_fire_department_rounded,
-                    size: 15,
+                    size: 16,
                     color: mqttService.isHeatSimActive
                         ? AppColors.onTertiaryContainer
                         : AppColors.tertiary,
                   ),
-                  const SizedBox(width: 5),
+                  const SizedBox(width: 6),
                   Text(
                     mqttService.isHeatSimActive
                         ? 'Stop Simulasi Panas'
                         : 'Simulasi Panas',
-                    style: AppStyles.labelSm(
+                    style: AppStyles.labelMd(
                       color: mqttService.isHeatSimActive
                           ? AppColors.onTertiaryContainer
                           : AppColors.onSurface,
@@ -203,11 +211,11 @@ class SparklinePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (data.isEmpty) return;
+    if (data.isEmpty || size.width <= 0 || size.height <= 0) return;
 
     final paint = Paint()
       ..color = lineColor
-      ..strokeWidth = 2.2
+      ..strokeWidth = 2.4
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
@@ -246,7 +254,6 @@ class SparklinePainter extends CustomPainter {
         fillPath.moveTo(x, size.height);
         fillPath.lineTo(x, y);
       } else {
-        // Cubic bezier smoothing
         final prevX = (i - 1) * dx;
         final prevNorm = (data[i - 1] - minVal) / (maxVal - minVal);
         final prevY = size.height - (prevNorm * size.height).clamp(0.0, size.height);

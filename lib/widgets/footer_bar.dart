@@ -10,9 +10,10 @@ class FooterBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mqttService = context.watch<MqttService>();
+    final isConnected = mqttService.connectionStatus == MqttStatus.connected;
 
     return Container(
-      height: 28,
+      height: 32,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: AppColors.surfaceContainerLowest.withOpacity(0.95),
@@ -29,12 +30,13 @@ class FooterBar extends StatelessWidget {
         children: [
           // Left Info
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'REMOTE MODE:',
                 style: AppStyles.labelSm(color: AppColors.onSurfaceVariant),
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: 5),
               Text(
                 'DUAL THUMBSTICK (MODE 2)',
                 style: AppStyles.labelSm(
@@ -42,7 +44,7 @@ class FooterBar extends StatelessWidget {
                   weight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(width: 14),
+              const SizedBox(width: 18),
               Text(
                 'RATE: 100 Hz WSS',
                 style: AppStyles.labelSm(color: AppColors.onSurfaceVariant),
@@ -52,12 +54,13 @@ class FooterBar extends StatelessWidget {
 
           // Right Info
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'CORE TEMP:',
                 style: AppStyles.labelSm(color: AppColors.onSurfaceVariant),
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: 5),
               Text(
                 '${mqttService.temperature.toStringAsFixed(1)}°C',
                 style: AppStyles.labelSm(
@@ -67,24 +70,20 @@ class FooterBar extends StatelessWidget {
                   weight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(width: 14),
+              const SizedBox(width: 18),
               Container(
-                width: 5,
-                height: 5,
-                decoration: const BoxDecoration(
-                  color: AppColors.secondaryFixedDim,
+                width: 6,
+                height: 6,
+                decoration: BoxDecoration(
+                  color: isConnected ? AppColors.secondaryFixedDim : AppColors.error,
                   shape: BoxShape.circle,
                 ),
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: 5),
               Text(
-                mqttService.connectionStatus == MqttStatus.connected
-                    ? 'BUS SYNC OK'
-                    : 'OFFLINE',
+                isConnected ? 'BUS SYNC OK' : 'OFFLINE',
                 style: AppStyles.labelSm(
-                  color: mqttService.connectionStatus == MqttStatus.connected
-                      ? AppColors.secondary
-                      : AppColors.error,
+                  color: isConnected ? AppColors.secondary : AppColors.error,
                   weight: FontWeight.w700,
                 ),
               ),

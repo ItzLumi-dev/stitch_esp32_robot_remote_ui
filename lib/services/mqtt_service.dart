@@ -13,6 +13,7 @@ enum TempStatus { normal, hangat, bahaya }
 
 class MqttService extends ChangeNotifier {
   MqttServerClient? _client;
+  StreamSubscription<List<MqttReceivedMessage<MqttMessage>>>? _updatesSub;
   MqttStatus _connectionStatus = MqttStatus.disconnected;
 
   // Telemetry state
@@ -102,20 +103,27 @@ class MqttService extends ChangeNotifier {
     }
 
     _connectionStatus = MqttStatus.connecting;
-    _addLog('CON > Connecting to ${MqttConfig.broker}:${MqttConfig.port} (WSS)...', LogType.info);
+    final wssUrl = 'wss://${MqttConfig.broker}${MqttConfig.websocketPath}';
+    _addLog('CON > Connecting to $wssUrl:${MqttConfig.port}...', LogType.info);
     notifyListeners();
+
+    await _updatesSub?.cancel();
+    _updatesSub = null;
+    _client?.disconnect();
 
     final clientId = 'iris_remote_${Random().nextInt(999999)}';
     _client = MqttServerClient.withPort(
-      MqttConfig.broker,
+      wssUrl,
       clientId,
       MqttConfig.port,
     );
 
+    // For WSS on MqttServerClient, useWebSocket = true with wss:// URI handles TLS automatically.
+    // Do NOT set secure = true alongside useWebSocket = true.
     _client!.useWebSocket = true;
-    _client!.secure = true;
     _client!.websocketProtocols = MqttClientConstants.protocolsSingleDefault;
     _client!.keepAlivePeriod = 20;
+    _client!.connectTimeoutPeriod = 10000;
     _client!.autoReconnect = true;
     _client!.resubscribeOnAutoReconnect = true;
     _client!.logging(on: false);
@@ -133,10 +141,19 @@ class MqttService extends ChangeNotifier {
     _client!.connectionMessage = connMessage;
 
     try {
-      await _client!.connect();
+      await _client!.connect(MqttConfig.username, MqttConfig.password);
+      if (_client!.connectionStatus?.state != MqttConnectionState.connected) {
+        final returnCode = _client!.connectionStatus?.returnCode;
+        _connectionStatus = MqttStatus.error;
+        _addLog('ERR > Broker rejected connection ($returnCode)', LogType.error);
+        _client!.disconnect();
+        notifyListeners();
+        _scheduleReconnect();
+      }
     } catch (e) {
       _connectionStatus = MqttStatus.error;
       _addLog('ERR > Connection failed: $e', LogType.error);
+      _client?.disconnect();
       notifyListeners();
       _scheduleReconnect();
     }
@@ -150,8 +167,9 @@ class MqttService extends ChangeNotifier {
     _subscribe(MqttConfig.topicTemperature);
     _subscribe(MqttConfig.topicDiagnostic);
 
-    // Start listening to incoming messages
-    _client!.updates?.listen(_onMessageReceived);
+    // Start listening to incoming messages (cancel previous listener first)
+    _updatesSub?.cancel();
+    _updatesSub = _client!.updates?.listen(_onMessageReceived);
 
     // Start 2-second periodic Ping timer
     _startPingTimer();
@@ -253,7 +271,7 @@ class MqttService extends ChangeNotifier {
     _pingTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
       if (_connectionStatus == MqttStatus.connected) {
         _lastPingSentTime = DateTime.now();
-        publish(MqttConfig.topicControl, MqttConfig.cmdPing, isSilentPing: true);
+        publish(MqttConfig.topicControl, MqttConfig.cmdPing);
       }
     });
   }
@@ -340,6 +358,7 @@ class MqttService extends ChangeNotifier {
     _pingTimer?.cancel();
     _reconnectTimer?.cancel();
     _heatSimTimer?.cancel();
+    _updatesSub?.cancel();
     _client?.disconnect();
     super.dispose();
   }

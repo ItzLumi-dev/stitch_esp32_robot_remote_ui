@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constants/app_colors.dart';
@@ -23,37 +24,38 @@ class _DriveControlCardState extends State<DriveControlCard> {
     final mqttService = context.watch<MqttService>();
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: AppColors.surfaceContainerLowest,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(18),
         boxShadow: AppStyles.cardShadow,
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Header & Mode Switcher
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  const Icon(
-                    Icons.sports_esports_rounded,
-                    color: AppColors.primary,
-                    size: 18,
-                  ),
-                  const SizedBox(width: 5),
-                  Text(
+              const Icon(
+                Icons.sports_esports_rounded,
+                color: AppColors.primary,
+                size: 20,
+              ),
+              const SizedBox(width: 5),
+              Expanded(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
                     'KONTROL PENGGERAK',
                     style: AppStyles.labelMd(
                       color: AppColors.onSurface,
                       weight: FontWeight.w700,
                     ),
                   ),
-                ],
+                ),
               ),
+              const SizedBox(width: 6),
               // Segmented Toggle
               Container(
                 padding: const EdgeInsets.all(2),
@@ -82,31 +84,30 @@ class _DriveControlCardState extends State<DriveControlCard> {
 
           const SizedBox(height: 10),
 
-          // Dynamic Controller Area (Sized nicely for landscape view)
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final availableWidth = constraints.maxWidth;
-              final controllerSize = availableWidth < 220 ? availableWidth : 190.0;
+          // Dynamic Controller Area (Auto-fits available vertical & horizontal space cleanly)
+          Expanded(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final side = min(constraints.maxWidth, constraints.maxHeight);
+                final controllerSize = min(side * 0.94, 270.0).clamp(140.0, 270.0);
 
-              return SizedBox(
-                height: controllerSize,
-                child: Center(
+                return Center(
                   child: _mode == DriveMode.dpad
                       ? DPadController(size: controllerSize)
                       : JoystickController(size: controllerSize),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
 
           const SizedBox(height: 10),
 
           // Bottom Direction Status Pill
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
             decoration: BoxDecoration(
               color: AppColors.surfaceContainerLow,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -119,7 +120,7 @@ class _DriveControlCardState extends State<DriveControlCard> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
                   decoration: BoxDecoration(
                     color: AppColors.surfaceContainerLowest,
                     borderRadius: BorderRadius.circular(9999),
@@ -133,7 +134,7 @@ class _DriveControlCardState extends State<DriveControlCard> {
                   ),
                   child: Text(
                     mqttService.activeDriveCommand,
-                    style: AppStyles.labelSm(
+                    style: AppStyles.labelMd(
                       color: mqttService.activeDriveCommand == 'EMERGENCY_STOP'
                           ? AppColors.tertiary
                           : AppColors.primary,
@@ -158,7 +159,7 @@ class _DriveControlCardState extends State<DriveControlCard> {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.surfaceContainerLowest : Colors.transparent,
           borderRadius: BorderRadius.circular(9999),
@@ -176,7 +177,7 @@ class _DriveControlCardState extends State<DriveControlCard> {
           label,
           style: AppStyles.labelSm(
             color: isSelected ? AppColors.primary : AppColors.onSurfaceVariant,
-            weight: isSelected ? FontWeight.w700 : FontWeight.w500,
+            weight: isSelected ? FontWeight.w700 : FontWeight.w600,
           ),
         ),
       ),

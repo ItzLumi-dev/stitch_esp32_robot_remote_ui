@@ -14,6 +14,9 @@ void main() async {
     DeviceOrientation.landscapeRight,
   ]);
 
+  // True fullscreen immersive mode so Android status bar & nav bar never overlap the cockpit UI
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
   // Set system UI overlay style
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(

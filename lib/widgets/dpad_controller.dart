@@ -186,10 +186,10 @@ class _DPadControllerState extends State<DPadController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (iconTop) ...[
-              Icon(icon, color: AppColors.primary, size: 28),
+              Icon(icon, color: AppColors.primary, size: (width * 0.42).clamp(22.0, 36.0)),
               Text(
                 label,
-                style: AppStyles.labelSm(
+                style: AppStyles.labelMd(
                   color: AppColors.primary,
                   weight: FontWeight.w700,
                 ),
@@ -197,12 +197,12 @@ class _DPadControllerState extends State<DPadController> {
             ] else ...[
               Text(
                 label,
-                style: AppStyles.labelSm(
+                style: AppStyles.labelMd(
                   color: AppColors.primary,
                   weight: FontWeight.w700,
                 ),
               ),
-              Icon(icon, color: AppColors.primary, size: 28),
+              Icon(icon, color: AppColors.primary, size: (width * 0.42).clamp(22.0, 36.0)),
             ],
           ],
         ),

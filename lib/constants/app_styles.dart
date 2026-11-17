@@ -60,7 +60,7 @@ class AppStyles {
 
   // Labels & Telemetry: JetBrains Mono
   static TextStyle labelLg({Color color = AppColors.onSurface, FontWeight weight = FontWeight.w600}) =>
-      GoogleFonts.jetbrainsMono(
+      GoogleFonts.jetBrainsMono(
         fontSize: 13,
         fontWeight: weight,
         letterSpacing: 0.5,
@@ -68,7 +68,7 @@ class AppStyles {
       );
 
   static TextStyle labelMd({Color color = AppColors.onSurface, FontWeight weight = FontWeight.w600}) =>
-      GoogleFonts.jetbrainsMono(
+      GoogleFonts.jetBrainsMono(
         fontSize: 11,
         fontWeight: weight,
         letterSpacing: 0.4,
@@ -76,7 +76,7 @@ class AppStyles {
       );
 
   static TextStyle labelSm({Color color = AppColors.onSurfaceVariant, FontWeight weight = FontWeight.w600}) =>
-      GoogleFonts.jetbrainsMono(
+      GoogleFonts.jetBrainsMono(
         fontSize: 9.5,
         fontWeight: weight,
         letterSpacing: 0.3,
